@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Internet Speed Test</title>
+    <style>
+        #loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Internet Speed Test</h1>
+    <button id="start-test">Start Test</button>
+    <div id="loading">Loading...</div>
+    <div id="results">
+        {% if download_speed %}
+            <p>Download Speed: {{ download_speed }} Mbps</p>
+        {% endif %}
+        {% if upload_speed %}
+            <p>Upload Speed: {{ upload_speed }} Mbps</p>
+        {% endif %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#start-test').click(function() {
+                $('#results').empty();  // Clear previous results
+                $('#loading').show();  // Show loading message
+
+                $.get('/speed-test/', function(data) {
+                    $('#loading').hide();  // Hide loading message
+                    $('#results').html(data);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
